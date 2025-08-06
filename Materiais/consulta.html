@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Materiais</title>
+</head>
+
+<body>
+  <h1>Materiais Disponíveis</h1>
+  <div id="materiais"></div>
+
+  <script>
+
+    
+// Função para exibir os materiais na página
+function mostrarMateriais(lista) {
+  const container = document.getElementById("materiais");
+  container.innerHTML = ""; // Limpa antes de adicionar
+
+  lista.forEach(material => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <strong>${material["ID_Material"]} - ${material["Material"]}</strong><br>
+      Quantidade Total: ${material["Quantidade Total"]}<br>
+      Armário: ${material["Armário"]}<br>
+      Prateleira: ${material["Prateleira"]}<br>
+      Área Trabalhada: ${material["Área Trabalhada"]}<br>
+      Habilidade(s): ${material["Habilidade(s) Trabalhada(s)"]}<br>
+      Descrição: ${material["Descrição do Material"]}
+      <hr>
+    `;
+    container.appendChild(div);
+  });
+}
+
+
+  </script>
+
+  <script src="consultaMateriais.js"></script>
+</body>
+
+</html>
