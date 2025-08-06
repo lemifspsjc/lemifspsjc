@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Emprestimos</title>
+</head>
+
+<body>
+  <h1>Emprestimos Realizados:</h1>
+  <div id="emprestimos"></div>
+
+
+  <script>
+
+      function formatarData(dataISO) {
+      var data = new Date(dataISO);
+      var dia = String(data.getDate()).padStart(2, "0");
+      var mes = String(data.getMonth() + 1).padStart(2, "0");
+      var ano = data.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    // Função para exibir os materiais na página
+    function mostrarEmprestimos(lista) {
+      const container = document.getElementById("emprestimos");
+      container.innerHTML = ""; // Limpa antes de adicionar
+
+      lista.forEach(emprestimo => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+      <strong>${emprestimo["ID_Emprestimo"]} - ${emprestimo["Nome"]} ${emprestimo["Sobrenome"]}</strong><br>
+      Material Emprestado: ${emprestimo["Material"]}<br>
+      Data de Empréstimo: ${formatarData(emprestimo["DataEmprestimo"])}<br>
+      Status: ${emprestimo["Status"]}
+      <hr>
+    `;
+        container.appendChild(div);
+      });
+    }
+
+  </script>
+  <script src="consultaEmprestimos.js"></script>
+</body>
+
+</html>
