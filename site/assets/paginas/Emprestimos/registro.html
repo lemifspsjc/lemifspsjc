@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
+    <title>Registrar Empréstimo</title>
+</head>
+<body>
+
+    <main>
+
+        <h2>Registrar Empréstimo</h2>
+
+        <form id="formEmprestimo">
+            <label>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Nome" name="Nome" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" placeholder="Sobrenome" name="Sobrenome" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date" placeholder="Data" name="DataEmprestimo" required>
+            </label>
+
+            <strong>Selecione abaixo o(s) material(is):</strong>
+            <!-- Aqui os materiais serão inseridos via JS -->
+            <div id="materiais"></div>
+
+            <br><button type="submit">Salvar Empréstimo</button>
+        </form>
+
+    </main>
+
+    <script src="registraEmprestimos.js"></script>
+    <script src="../Materiais/consultaMateriais.js"></script>
+
+</body>
+</html>

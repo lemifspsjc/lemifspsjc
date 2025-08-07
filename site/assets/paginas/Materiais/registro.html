@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
+    <title>Adicionar Material</title>
+</head>
+<body>
+
+    <main>
+
+        <h2>Cadastro de Material</h2>
+
+        <form id="formMaterial">
+            <label>
+                <i class="fa-solid fa-square-minus"></i>
+                <input type="text" placeholder="Armário" name="Armário">
+            </label>
+
+            <label>
+                <i class="fa-solid fa-window-restore"></i>
+                <input type="text" placeholder="Prateleira" name="Prateleira">
+            </label>
+
+            <label>
+                <i class="fa-solid fa-box"></i>
+                <input type="text" placeholder="Material" name="Material" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-boxes-stacked"></i>
+                <input type="number" placeholder="Quantidade Total" name="Quantidade Total" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-square-check"></i>
+                <input type="number" placeholder="Apropriado para Uso" name="Apropriado para uso" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-square-xmark"></i>
+                <input type="number" placeholder="Com Defeito" name="Com Defeito" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-file-circle-xmark"></i>
+                <input type="text" placeholder="Descrição de Defeito" name="Descrição do Defeito">
+            </label>
+
+            <label>
+                <i class="fa-solid fa-brain"></i>
+                <input type="text" placeholder="Área Trabalhada" name="Área Trabalhada">
+            </label>
+
+            <label>
+                <i class="fa-solid fa-calculator"></i>
+                <input type="text" placeholder="Habilidade(s) Trabalhada(s)" name="Habilidade(s) Trabalhada(s)">
+            </label>
+
+            <label>
+                <i class="fa-solid fa-file-lines"></i>
+                <input type="text" placeholder="Descrição do Material" name="Descrição do Material" required>
+            </label>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+    </main>
+    
+    <script src="registraMateriais.js"></script>
+
+</body>
+</html>
