@@ -16,9 +16,9 @@ function mostrarEmprestimos(lista) {
     const div = document.createElement("div");
     div.innerHTML = `
       <strong>${emprestimo["ID_Emprestimo"]} - ${emprestimo["Nome"]} ${emprestimo["Sobrenome"]}</strong><br>
-      Material Emprestado: ${emprestimo["Material"]}<br>
-      Data de Empréstimo: ${formatarData(emprestimo["DataEmprestimo"])}<br>
-      Status: ${emprestimo["Status"]}<br>
+      <b><i class="fa-solid fa-box"></i> Material Emprestado:</b> ${emprestimo["Material"]}<br>
+      <b><i class="fa-solid fa-calendar-days"></i> Data de Empréstimo:</b> ${formatarData(emprestimo["DataEmprestimo"])}<br>
+      <b><i class="fa-solid fa-file-circle-check"></i> Status:</b> ${emprestimo["Status"]}<br><br>
       <hr>
       <br>
     `;

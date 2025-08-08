@@ -6,70 +6,89 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
-    <title>Adicionar Material</title>
+    <title>Adicionar Material - LEM</title>
 </head>
 <body>
 
     <main>
 
-        <h2>Cadastro de Material</h2>
+        <header>
+            <button id="voltar"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Cadastro de Material</h2>
+            <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
+        </header>
 
         <form id="formMaterial">
             <label>
                 <i class="fa-solid fa-square-minus"></i>
-                <input type="text" placeholder="Armário" name="Armário">
+                
+                <select name="Armário" required>
+                    <option value="Armário 1">Armário 1</option>
+                    <option value="Armário 2">Armário 2</option>
+                    <option value="Armário 3">Armário 3</option>
+                    <option value="Armário 4">Armário 4</option>
+                    <option value="Armário 5">Armário 5</option>
+                    <option value="Armário 6">Armário 6</option>
+                </select>
             </label>
 
             <label>
                 <i class="fa-solid fa-window-restore"></i>
-                <input type="text" placeholder="Prateleira" name="Prateleira">
+
+                <select name="Prateleira" required>
+                    <option value="Prateleira 1">Prateleira 1</option>
+                    <option value="Prateleira 2">Prateleira 2</option>
+                    <option value="Prateleira 3">Prateleira 3</option>
+                    <option value="Prateleira 4">Prateleira 4</option>
+                </select>
             </label>
 
             <label>
                 <i class="fa-solid fa-box"></i>
-                <input type="text" placeholder="Material" name="Material" required>
+                <input type="text" placeholder="Material" name="Material" id="material" oninput="validarDados()" required>
             </label>
 
             <label>
                 <i class="fa-solid fa-boxes-stacked"></i>
-                <input type="number" placeholder="Quantidade Total" name="Quantidade Total" required>
+                <input type="number" min="1" placeholder="Quantidade Total" name="Quantidade Total" id="qtd-total" oninput="validarDados()" required>
             </label>
 
             <label>
                 <i class="fa-solid fa-square-check"></i>
-                <input type="number" placeholder="Apropriado para Uso" name="Apropriado para uso" required>
+                <input type="number" min="1" placeholder="Apropriado para Uso" name="Apropriado para uso" id="apropriado" oninput="validarDados()" required>
             </label>
 
             <label>
                 <i class="fa-solid fa-square-xmark"></i>
-                <input type="number" placeholder="Com Defeito" name="Com Defeito" required>
+                <input type="number" min="1" placeholder="Com Defeito" name="Com Defeito" id="defeito" oninput="validarDados()" required>
             </label>
 
             <label>
                 <i class="fa-solid fa-file-circle-xmark"></i>
-                <input type="text" placeholder="Descrição de Defeito" name="Descrição do Defeito">
+                <input type="text" placeholder="Descrição de Defeito" name="Descrição do Defeito" id="desc-defeito">
             </label>
 
             <label>
                 <i class="fa-solid fa-brain"></i>
-                <input type="text" placeholder="Área Trabalhada" name="Área Trabalhada">
+                <input type="text" placeholder="Área Trabalhada" name="Área Trabalhada" id="area-trab">
             </label>
 
             <label>
                 <i class="fa-solid fa-calculator"></i>
-                <input type="text" placeholder="Habilidade(s) Trabalhada(s)" name="Habilidade(s) Trabalhada(s)">
+                <input type="text" placeholder="Habilidade(s) Trabalhada(s)" name="Habilidade(s) Trabalhada(s)" id="hab-trab">
             </label>
 
             <label>
                 <i class="fa-solid fa-file-lines"></i>
-                <input type="text" placeholder="Descrição do Material" name="Descrição do Material" required>
-            </label>
+                <input type="text" placeholder="Descrição do Material" name="Descrição do Material" id="desc-material" oninput="validarDados()" required>
+            </label> <br>
 
-            <button type="submit">Cadastrar</button>
+            <button id="cadastrar" type="submit">Cadastrar Material</button>
         </form>
 
     </main>
-    
+
+    <script src="../../js/script.js"></script>
     <script src="registraMateriais.js"></script>
 
 </body>

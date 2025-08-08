@@ -9,6 +9,7 @@
     --cor-fundo: #126D07;
     --cor-branca: #F2F2F2;
     --cor-cinza: #e0e0e0;
+    --cor-cinza-escuro: #bbbbbb;
 }
 
 /* reset css */
@@ -19,6 +20,8 @@
     box-sizing: border-box;
     text-decoration: none;
 }
+
+/* estilização da página */
 
 body {
     display: flex;
@@ -51,10 +54,11 @@ body::-webkit-scrollbar-thumb,
 main {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: column;
     gap: 1rem;
     width: 90vw;
+    min-height: 90vh;
     background-color: var(--cor-branca);
     padding: 2rem;
     border-radius: 1rem;
@@ -71,9 +75,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10vw;
     width: 100%;
     border-radius: 3px;
     border-bottom: 1px solid var(--cor-principal);
+    padding-bottom: 1rem;
 }
 
 img {
@@ -111,7 +117,8 @@ summary {
     transition: all .3s;
 }
 
-summary:hover {
+summary:hover,
+summary:hover i {
     color: var(--cor-fundo);
 }
 
@@ -124,6 +131,17 @@ details summary::after {
 
 details[open] {
     transition: .3s;
+}
+
+details[open] summary,
+details[open] summary i {
+    color: var(--cor-fundo);
+    transition: .3s;
+}
+
+details[open] summary:hover,
+details[open] summary:hover i {
+    color: var(--cor-principal);
 }
 
 details[open] summary[open] {
@@ -154,7 +172,8 @@ a {
     white-space: nowrap;
 }
 
-a:hover {
+a:hover,
+a:hover i {
     color: var(--cor-fundo);
     text-decoration: underline;
 }
@@ -181,26 +200,85 @@ label i {
     font-size: 1rem;
 }
 
-input {
+input,
+select {
     background-color: transparent;
     border: none;
     font-size: 1rem;
     margin-left: 15px;
 }
 
+label input,
+select {
+    width: 90%;
+}
+
+label:focus-within {
+    outline: 2px solid var(--cor-principal);
+}
+
+button {
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(.9);
+}
+
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+    background-color: var(--cor-cinza);
+    color: var(--cor-cinza-escuro);
+    border: none;
+    cursor: no-drop;
+    transform: scale(1);
+}
+
 form button {
     background-color: var(--cor-principal);
     color: var(--cor-branca);
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 15px;
     border: none;
     font-weight: bold;
     font-size: 1rem;
 }
 
+form button:hover {
+    background-color: var(--cor-branca);
+    color: var(--cor-principal);
+    border: 1px solid var(--cor-principal);
+}
+
 /* outras páginas */
+
+i {
+    color: var(--cor-principal);
+}
 
 hr {
     border-radius: 3px;
     color: var(--cor-principal);
+}
+
+header button {
+    background-color: transparent;
+    border: none;
+    color: var(--cor-principal);
+    font-size: 2rem;
+}
+
+.material {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--cor-cinza);
 }

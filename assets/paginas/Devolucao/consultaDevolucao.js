@@ -16,9 +16,9 @@ function mostrarDevolucoes(lista) {
     const div = document.createElement("div");
     div.innerHTML = `
       <strong>${devolucao["ID_Devolucao"]} - ${devolucao["Nome"]} ${devolucao["Sobrenome"]}</strong><br>
-      Material Emprestado: ${devolucao["Material"]}<br>
-      Data de Empréstimo: ${formatarData(devolucao["DataEmprestimo"])}<br>
-      Data de Devolução: ${formatarData(devolucao["DataDevolucao"])}<br>
+      <b><i class="fa-solid fa-box"></i> Material Emprestado:</b> ${devolucao["Material"]}<br>
+      <b><i class="fa-solid fa-calendar-days"></i> Data de Empréstimo:</b> ${formatarData(devolucao["DataEmprestimo"])}<br>
+      <b><i class="fa-solid fa-calendar-check"></i> Data de Devolução:</b> ${formatarData(devolucao["DataDevolucao"])}<br>
       <hr>
     `;
     container.appendChild(div);
