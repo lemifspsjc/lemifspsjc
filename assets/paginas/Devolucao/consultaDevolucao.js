@@ -19,7 +19,8 @@ function mostrarDevolucoes(lista) {
       <b><i class="fa-solid fa-box"></i> Material Emprestado:</b> ${devolucao["Material"]}<br>
       <b><i class="fa-solid fa-calendar-days"></i> Data de Empréstimo:</b> ${formatarData(devolucao["DataEmprestimo"])}<br>
       <b><i class="fa-solid fa-calendar-check"></i> Data de Devolução:</b> ${formatarData(devolucao["DataDevolucao"])}<br>
-      <hr>
+      <b><i class="fa-solid fa-user"></i> Recebido Por:</b> ${devolucao["RecebidoPor"]}<br><br>
+      <hr><br>
     `;
     container.appendChild(div);
   });
