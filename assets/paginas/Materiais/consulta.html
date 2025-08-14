@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
+  <title>Lista de Materiais - LEM</title>
+</head>
+
+<body>
+
+  <main>
+
+    <header>
+      <button id="voltar"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2>Materiais Disponíveis</h2>
+      <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
+    </header>
+
+    <div id="materiais"></div>
+
+  </main>
+
+  <script>
+
+    // Função para exibir os materiais no HTML
+    function mostrarMateriais(lista) {
+      const container = document.getElementById("materiais");
+      container.innerHTML = ""; // Limpa antes de adicionar
+
+      lista.forEach(material => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <strong>${material["ID_Material"]} - ${material["Material"]}</strong><br><br>
+          <b><i class="fa-solid fa-boxes-stacked"></i> Quantidade Total:</b> ${material["Quantidade Total"]}<br><br>
+          <b><i class="fa-solid fa-window-restore"></i> Local:</b> ${material["Armário"]}, ${material["Prateleira"]}<br><br>
+          <b><i class="fa-solid fa-brain"></i> Área Trabalhada:</b> ${material["Área Trabalhada"]}<br><br>
+          <b><i class="fa-solid fa-calculator"></i> Habilidade(s):</b> ${material["Habilidade(s) Trabalhada(s)"]}<br><br>
+          <b><i class="fa-solid fa-file-lines"></i> Descrição:</b> ${material["Descrição do Material"]}
+          <br><br>
+          <hr>
+          <br>
+        `;
+        container.appendChild(div);
+      });
+    };
+
+  </script>
+
+  <script src="../../js/script.js"></script>
+  <script src="consultaMateriais.js"></script>
+
+</body>
+</html>

@@ -1,3 +1,6 @@
+// Função para exibir os dados no HTML
+
+
 // URL da API do Google Apps Script
 const API_URL_CONSULTA_MATERIAIS = "https://script.google.com/macros/s/AKfycbxdC8WGd8afkiUr3WE98NzWKkFi9H220Lj7ZkVHjoxmQRow2F7LP8ITsoJqUgtagiU/exec";
 
@@ -11,7 +14,7 @@ async function carregarMateriais() {
 
     console.log("Dados recebidos:", dados);
 
-    const materiaisDisponiveis = dados
+    const materiaisDisponiveis = dados;
 
     // Exibir no HTML
     mostrarMateriais(materiaisDisponiveis);
@@ -19,7 +22,7 @@ async function carregarMateriais() {
   } catch (erro) {
     console.error("Erro ao carregar dados:", erro);
   }
-}
+};
 
 // Chama a função ao carregar a página
 carregarMateriais();

@@ -1,0 +1,284 @@
+/* fonte Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* variáveis de cores */
+:root {
+    --cor-principal: #38B42E;
+    --cor-secundaria: #EA1010;
+
+    --cor-fundo: #126D07;
+    --cor-branca: #F2F2F2;
+    --cor-cinza: #e0e0e0;
+    --cor-cinza-escuro: #bbbbbb;
+}
+
+/* reset css */
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+/* estilização da página */
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo);
+    padding: 5vh;
+    font-family: 'Poppins';
+}
+
+/* configuração da scrollbar */
+body::-webkit-scrollbar,
+.modal-info::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track,
+.modal-info::-webkit-scrollbar-track {
+    background-color: var(--cor-branca);
+}
+
+body::-webkit-scrollbar-thumb,
+.modal-info::-webkit-scrollbar-thumb {
+    background: var(--cor-principal);
+    border-radius: 15rem;
+}
+/* fim da configuração da scrollbar */
+
+/* estilização da caixa no centro da tela */
+main {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90vw;
+    min-height: 90vh;
+    background-color: var(--cor-branca);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+h1,
+h2,
+strong {
+    color: var(--cor-principal);
+}
+
+/* esilização do cabeçalho */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10vw;
+    width: 100%;
+    border-radius: 3px;
+    border-bottom: 1px solid var(--cor-principal);
+    padding-bottom: 1rem;
+}
+
+img {
+    height: 180px;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* estilização do conteúdo principal */
+article {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* estilzação dos details */
+details {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all .3s;
+    list-style: none;
+}
+
+summary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--cor-principal);
+    list-style: none;
+    transition: all .3s;
+}
+
+summary:hover,
+summary:hover i {
+    color: var(--cor-fundo);
+}
+
+details summary::after {
+    content: "+";
+    font-size: 2rem;
+    transition: all .3s ease;
+    margin-left: 1rem;
+}
+
+details[open] {
+    transition: .3s;
+}
+
+details[open] summary,
+details[open] summary i {
+    color: var(--cor-fundo);
+    transition: .3s;
+}
+
+details[open] summary:hover,
+details[open] summary:hover i {
+    color: var(--cor-principal);
+}
+
+details[open] summary[open] {
+    transition: .3s;
+}
+
+details[open] summary::after {
+    transform: rotate(45deg);
+}
+/* fim da estilização dos details */
+
+
+/* estilização do rodapé */
+footer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border-radius: 3px;
+    border-top: 1px solid var(--cor-principal);
+}
+
+/* estilização dos links */
+a {
+    font-size: 1em;
+    padding: .5rem;
+    color: var(--cor-principal);
+    transition: all .3s ease;
+    white-space: nowrap;
+}
+
+a:hover,
+a:hover i {
+    color: var(--cor-fundo);
+    text-decoration: underline;
+}
+
+/* formulários */
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+label {
+    display: flex;
+    background-color: var(--cor-cinza);
+    border-radius: 15px;
+    padding: 15px;
+    width: 100%;
+}
+
+label i {
+    color: var(--cor-principal);
+    font-size: 1rem;
+}
+
+input,
+select {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    margin-left: 15px;
+}
+
+label input,
+select {
+    width: 90%;
+}
+
+label:focus-within {
+    outline: 2px solid var(--cor-principal);
+}
+
+button {
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(.9);
+}
+
+button:disabled,
+button:disabled:hover,
+button:disabled:active {
+    background-color: var(--cor-cinza);
+    color: var(--cor-cinza-escuro);
+    border: none;
+    cursor: no-drop;
+    transform: scale(1);
+}
+
+form button {
+    background-color: var(--cor-principal);
+    color: var(--cor-branca);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+form button:hover {
+    background-color: var(--cor-branca);
+    color: var(--cor-principal);
+    border: 1px solid var(--cor-principal);
+}
+
+/* outras páginas */
+
+i {
+    color: var(--cor-principal);
+}
+
+hr {
+    border-radius: 3px;
+    color: var(--cor-principal);
+}
+
+header button {
+    background-color: transparent;
+    border: none;
+    color: var(--cor-principal);
+    font-size: 2rem;
+}
+
+.material {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--cor-cinza);
+}

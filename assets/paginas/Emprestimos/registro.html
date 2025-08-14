@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
+    <title>Registrar Empréstimo - LEM</title>
+</head>
+
+<body>
+
+    <main>
+
+        <header>
+            <button id="voltar"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Registrar Empréstimo</h2>
+            <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
+        </header>
+
+        <form id="formEmprestimo">
+            <label>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Nome" name="Nome" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" placeholder="Sobrenome" name="Sobrenome" required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date" placeholder="Data" name="DataEmprestimo" required>
+            </label>
+
+            <strong>Selecione abaixo o(s) material(is):</strong>
+            <!-- Aqui os materiais serão inseridos via JS -->
+            <div id="materiais"></div>
+
+            <br><button type="submit">Salvar Empréstimo</button>
+        </form>
+
+    </main>
+
+    <script>
+
+        function mostrarMateriais(lista) {
+            const container = document.getElementById("materiais");
+            container.innerHTML = ""; // Limpa antes de adicionar
+
+            lista.forEach(material => {
+                const div = document.createElement("div");
+                div.style.border = "1px solid #ccc";
+                div.style.padding = "10px";
+                div.style.marginBottom = "10px";
+                div.style.display = "flex";
+                div.style.alignItems = "center";
+                div.style.gap = "10px";
+                div.innerHTML = `
+                    <input type="checkbox" name="materiaisSelecionados" value="${material["Material"]}">
+                    <div>
+                        <strong>${material["Material"]}</strong><br>
+                        <b><i class="fa-solid fa-boxes-stacked"></i> Quantidade Total:</b> ${material["Quantidade Total"]}<br>
+                        <b><i class="fa-solid fa-window-restore"></i> Local:</b> ${material["Armário"]}, ${material["Prateleira"]}<br>
+                        <b><i class="fa-solid fa-brain"></i> Área Trabalhada:</b> ${material["Área Trabalhada"]}<br>
+                    </div>
+                    <div style="width: 80px; height: 80px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
+                        <span>Imagem</span>
+                    </div>
+                `;
+
+                container.appendChild(div);
+            });
+        }
+
+    </script>
+
+    <script src="../../js/script.js"></script>
+    <script src="registraEmprestimos.js"></script>
+    <script src="../Materiais/consultaMateriais.js"></script>
+
+</body>
+
+</html>
