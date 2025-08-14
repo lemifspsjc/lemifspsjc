@@ -23,6 +23,10 @@ document
 
     formData.forEach((valor, chave) => {
       dados[chave] = valor;
+
+      const botaoEnviar = document.getElementById("botao");
+      botaoEnviar.disabled = true;
+      botaoEnviar.textContent = "Prosseguindo...";
     });
 
     // Captura os materiais selecionados (checkbox)
@@ -75,23 +79,97 @@ document
         formulario.style.gap = "10px";
 
         formulario.innerHTML = `
-          <strong>Nome:</strong><input type="text" name="Nome" value="${ultimo.Nome}" readonly>
-          <strong>Sobrenome:</strong><input type="text" name="Sobrenome" value="${ultimo.Sobrenome}" readonly>
-          <strong>Data:</strong><input type="text" name="DataEmprestimo" value="${formatarData(ultimo.DataEmprestimo)}" readonly><br>
-          <div id="materiais">${materiaisHTML}</div>
+
+          <label>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="nome" placeholder="Nome" name="Nome" value="${
+                  ultimo.Nome
+                }" readonly required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" id="Sobrenome" placeholder="Sobrenome" name="Sobrenome" value="${
+                  ultimo.Sobrenome
+                }" readonly required>
+            </label>
+
+            <label>
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="text" name="DataEmprestimo" value="${formatarData(
+                  ultimo.DataEmprestimo
+                )}" readonly required>
+            </label>
+
+            <div id="materiais">${materiaisHTML}</div>
           <button type="button" id="editarUltimo">Editar</button>
           <button type="button" id="cancelarUltimo" style="background-color:red; color:white;">Cancelar</button>
           <button type="button" id="finalizar">Finalizar</button>
         `;
 
-        document.getElementById("finalizar").addEventListener("click", () => {
-           window.location.href = "./consulta.html";
+        const botaoFinalizar = document.getElementById("finalizar");
+        botaoFinalizar.addEventListener("click", () => {
+          botaoFinalizar.disabled = true;
+          botaoFinalizar.textContent = "Finalizando...";
+          botaoCancela.disabled = true;
+          botaoEditar.disabled = true;
+          window.location.href = "./consulta.html";
         });
 
         // -------------------- CANCELAR --------------------
-        document
-          .getElementById("cancelarUltimo")
-          .addEventListener("click", async () => {
+        const botaoCancela = document.getElementById("cancelarUltimo");
+        botaoCancela.addEventListener("click", async () => {
+          botaoCancela.disabled = true;
+          botaoCancela.textContent = "Cancelando...";
+          botaoEditar.disabled = true;
+          botaoFinalizar.disabled = true;
+
+          await fetch(API_URL_EMPRESTIMOS, {
+            method: "POST",
+            body: JSON.stringify({
+              acao: "excluir",
+              ID: ultimo.ID || ultimo.ID_Emprestimo,
+            }),
+          });
+          formulario.innerHTML = "";
+          alert("Empréstimo cancelado!");
+          window.location.href = "./consulta.html";
+        });
+
+        // -------------------- EDITAR --------------------
+        const botaoEditar = document.getElementById("editarUltimo");
+        botaoEditar.addEventListener("click", async () => {
+          botaoEditar.disabled = true;
+          botaoEditar.textContent = "Carregando...";
+          botaoCancela.disabled = true;
+          botaoFinalizar.disabled = true;
+
+          const API_URL_CONSULTA_MATERIAIS =
+            "https://script.google.com/macros/s/AKfycbxdC8WGd8afkiUr3WE98NzWKkFi9H220Lj7ZkVHjoxmQRow2F7LP8ITsoJqUgtagiU/exec";
+
+          const respostaMateriais = await fetch(API_URL_CONSULTA_MATERIAIS);
+          const listaMateriais = await respostaMateriais.json();
+          const materiaisSelecionados = (ultimo.Material || "").split(", ");
+
+          mostrarMateriais(listaMateriais, materiaisSelecionados);
+
+          document.getElementById("nome").removeAttribute("readonly");
+          document.getElementById("Sobrenome").removeAttribute("readonly");
+
+          const botaoSalvar = document.getElementById("editarUltimo");
+          botaoSalvar.textContent = "Salvar";
+          botaoSalvar.disabled = false;
+          botaoCancela.disabled = false;
+          botaoFinalizar.remove();
+
+          botaoSalvar.addEventListener("click", async () => {
+            // Desativa o botão para não ter spam
+            botaoSalvar.disabled = true;
+            botaoSalvar.textContent = "Salvando...";
+            botaoCancela.disabled = true;
+            botaoFinalizar.disabled = true;
+
+            //  Exclui antigo
             await fetch(API_URL_EMPRESTIMOS, {
               method: "POST",
               body: JSON.stringify({
@@ -99,67 +177,40 @@ document
                 ID: ultimo.ID || ultimo.ID_Emprestimo,
               }),
             });
-            formulario.innerHTML = "";
-            alert("Empréstimo cancelado!");
-          });
 
-        // -------------------- EDITAR --------------------
-        document
-          .getElementById("editarUltimo")
-          .addEventListener("click", async () => {
-            const API_URL_CONSULTA_MATERIAIS =
-              "https://script.google.com/macros/s/AKfycbxdC8WGd8afkiUr3WE98NzWKkFi9H220Lj7ZkVHjoxmQRow2F7LP8ITsoJqUgtagiU/exec";
-
-            const respostaMateriais = await fetch(API_URL_CONSULTA_MATERIAIS);
-            const listaMateriais = await respostaMateriais.json();
-            const materiaisSelecionados = (ultimo.Material || "").split(", ");
-
-            mostrarMateriais(listaMateriais, materiaisSelecionados);
-
-            const botaoSalvar = document.getElementById("editarUltimo");
-            botaoSalvar.textContent = "Salvar";
-
-            botaoSalvar.addEventListener("click", async () => {
-              // 1️⃣ Exclui antigo
-              await fetch(API_URL_EMPRESTIMOS, {
-                method: "POST",
-                body: JSON.stringify({
-                  acao: "excluir",
-                  ID: ultimo.ID || ultimo.ID_Emprestimo,
-                }),
-              });
-
-              // 2️⃣ Captura os novos dados editados
-              const formDataEdit = new FormData(formulario);
-              const novosDados = {};
-              formDataEdit.forEach((valor, chave) => {
-                novosDados[chave] = valor;
-              });
-
-              // Materiais selecionados
-              const novosMateriais = [];
-              document
-                .querySelectorAll('input[name="materiaisSelecionados"]:checked')
-                .forEach((checkbox) => novosMateriais.push(checkbox.value));
-
-              novosDados["Material"] = novosMateriais.join(", ");
-              novosDados["Status"] = "Emprestado";
-              novosDados["acao"] = "adicionar";
-
-              // 3️⃣ Envia edição
-              await fetch(API_URL_EMPRESTIMOS, {
-                method: "POST",
-                body: JSON.stringify(novosDados),
-              });
-
-              formulario.innerHTML = "";
-              alert("Empréstimo editado!");
-               window.location.href = "./consulta.html";
+            // Captura os novos dados editados
+            const formDataEdit = new FormData(formulario);
+            const novosDados = {};
+            formDataEdit.forEach((valor, chave) => {
+              novosDados[chave] = valor;
             });
+
+            // Materiais selecionados
+            const novosMateriais = [];
+            document
+              .querySelectorAll('input[name="materiaisSelecionados"]:checked')
+              .forEach((checkbox) => novosMateriais.push(checkbox.value));
+
+            novosDados["Material"] = novosMateriais.join(", ");
+            novosDados["Status"] = "Emprestado";
+            novosDados["acao"] = "adicionar";
+
+            // Envia edição
+
+            await fetch(API_URL_EMPRESTIMOS, {
+              method: "POST",
+              body: JSON.stringify(novosDados),
+            });
+            formulario.innerHTML = "";
+            alert("Empréstimo editado!");
+            window.location.href = "./consulta.html";
           });
+        });
       }
     } else {
       alert("Erro ao inserir: " + (resultado.mensagem || ""));
+      botaoEnviar.disabled = false;
+      botaoEnviar.textContent = "Prosseguir";
     }
   });
 
@@ -177,7 +228,9 @@ function mostrarMateriais(lista, selecionados = []) {
     div.style.alignItems = "center";
     div.style.gap = "10px";
 
-    const checked = selecionados.includes(material["Material"]) ? "checked" : "";
+    const checked = selecionados.includes(material["Material"])
+      ? "checked"
+      : "";
 
     div.innerHTML = `
       <input type="checkbox" name="materiaisSelecionados" value="${material["Material"]}" ${checked}>
