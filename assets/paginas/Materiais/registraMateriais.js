@@ -24,6 +24,10 @@ const API_URL_REGISTRA_MATERIAIS = "https://script.google.com/macros/s/AKfycbxdC
 document.getElementById("formMaterial").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  const botaoSalva = document.getElementById("cadastrar")
+  botaoSalva.disabled = true;
+  botaoSalva.textContent = "Salvando...";
+
   const formData = new FormData(this);
   const dados = {};
   formData.forEach((valor, chave) => {
@@ -32,9 +36,13 @@ document.getElementById("formMaterial").addEventListener("submit", async functio
 
   const resposta = await fetch(API_URL_REGISTRA_MATERIAIS, {
     method: "POST",
-    body: JSON.stringify(dados)
+    body: JSON.stringify({
+      acao: "adicionar",
+      ...dados
+    }),
   });
 
   const resultado = await resposta.json();
   alert(resultado.status === "sucesso" ? "Registro inserido!" : "Erro ao inserir!");
+  window.location.href = "./consulta.html";
 });
