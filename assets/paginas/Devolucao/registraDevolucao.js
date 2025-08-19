@@ -22,12 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Pede quem recebeu a devolução
-    const recebidoPor = prompt("Informe quem recebeu a devolução:");
-    if (!recebidoPor || recebidoPor.trim() === "") {
-      alert("O campo 'Recebido por' é obrigatório.");
-      return;
-    }
+    // Utiliza o usuário logado para marcar o campo "RecebidoPro"
+    const recebidoPor = localStorage.getItem("usuario");
 
     btnDevolver.disabled = true;
     btnDevolver.textContent = "Registrando...";
@@ -54,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
               Material: dado.Material,
               DataEmprestimo: dado.DataEmprestimo,
               DataDevolucao: new Date().toISOString().split("T")[0],
-              RecebidoPor: recebidoPor.trim(),
+              RecebidoPor: recebidoPor,
             }),
           }).then((res) => res.json())
         )

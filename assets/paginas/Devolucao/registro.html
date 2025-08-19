@@ -15,6 +15,18 @@
         <button type="submit" id="btnDevolver">Registrar Devoluções</button>
     </form>
 
+    <script>
+        // Bloqueia acesso se não logado
+        if (localStorage.getItem("logado") !== "true") {
+            window.location.href = "login.html";
+        }
+        // Expira sessão após o tempo determinado
+        const expira = localStorage.getItem("sessaoExpira");
+        if (!expira || Date.now() > expira) {
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
+    </script>
     <script src="../../js/script.js"></script>
     <script src="registraDevolucao.js"></script>
     <script src="emprestimosAtivos.js"></script>
