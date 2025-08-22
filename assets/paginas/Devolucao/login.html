@@ -3,19 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/style.css">
+    <title>Área Restrita - LEM</title>
 </head>
 <body>
-    <h2>Área Restrita</h2>
+
   
-  <form id="loginForm">
-    <input type="text" id="usuario" placeholder="Usuário" required><br>
-    <input type="password" id="senha" placeholder="Senha" required><br>
-    <button id="entrar" type="submit">Entrar</button>
-  </form>
+  <main>
+    <header>
+      <button id="voltar"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2>Área Restrita</h2>
+      <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
+    </header>
 
-  <p id="mensagem"></p>
+    <img src="../../imagens/area_restrita.svg">
 
+    <form id="loginForm">
+      <label>
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="usuario" placeholder="Usuário" required><br>
+      </label>
+      <label>
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="senha" placeholder="Senha" required><br>
+      </label>
+      <button id="entrar" type="submit">Entrar</button>
+    </form>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../../js/script.js"></script>
   <script src="./login.js"></script>
+
 </body>
 </html>

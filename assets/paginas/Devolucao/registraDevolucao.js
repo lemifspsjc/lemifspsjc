@@ -18,7 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
       'input[name="emprestimosSelecionados"]:checked'
     );
     if (checkboxes.length === 0) {
-      alert("Selecione ao menos um empréstimo para registrar a devolução.");
+      Swal.fire({
+        icon: "question",
+        title: "Nenhum empréstimo selecionado.",
+        text: "Selecione ao menos um empréstimo para registrar a devolução.",
+        confirmButtonText: "Tudo bem!",
+        confirmButtonColor: '#38B42E',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
       return;
     }
 
@@ -26,7 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const recebidoPor = localStorage.getItem("usuario");
 
     btnDevolver.disabled = true;
-    btnDevolver.textContent = "Registrando...";
+    Swal.fire({
+      title: "Registrando...",
+      html: "<div class='spinner'></div>",
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    });
 
     // Coleta os dados das checkboxes selecionadas
     const selecionados = Array.from(checkboxes).map((cb) => ({
@@ -75,17 +89,56 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const todosSucesso = respostas.every((r) => r.status === "sucesso");
-      alert(
-        todosSucesso
-          ? "Devoluções registradas com sucesso!"
-          : "Erro em algum registro."
-      );
+      if (todosSucesso) {
+        Swal.fire({
+          title: "Registro bem-sucedido!",
+          text: "Devoluções registradas com sucesso!",
+          icon: "success",
+          confirmButtonText: "Obrigado!",
+          confirmButtonColor: '#38B42E',
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "./consulta.html";
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Erro ao inserir!",
+          text: "Houve erro em algum registro.",
+          icon: "error",
+          showDenyButton: true,
+          denyButtonText: "OK...",
+          denyButtonColor: "#EA1010",
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then((result) => {
+          if (result.isDenied) {
+            window.location.href = "./consulta.html";
+          }
+        });
+      }
 
       if (typeof listarEmprestimos === "function") listarEmprestimos();
     } catch (erro) {
       console.error("Erro ao registrar devoluções:", erro);
-      alert("Erro na comunicação com a API.");
+      Swal.fire({
+          title: "Erro na comunicação com o servidor!",
+          text: "Desculpe, não conseguimos nos comunicar com o servidor.",
+          icon: "error",
+          showDenyButton: true,
+          denyButtonText: "OK...",
+          denyButtonColor: "#EA1010",
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then((result) => {
+          if (result.isDenied) {
+            window.location.href = "./consulta.html";
+          }
+        });
     }
-    window.location.href = "./consulta.html";
   });
 });

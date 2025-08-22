@@ -44,7 +44,23 @@ async function carregarDevolucoes() {
     // Exibir no HTML
     mostrarDevolucoes(devolucao);
 
+    document.querySelector('img').src = "../../imagens/dados.svg";
+
   } catch (erro) {
+    Swal.fire({
+      title: "Erro ao carregar dados:",
+      text: erro,
+      icon: "error",
+      showDenyButton: true,
+      denyButtonText: "Tentar novamente",
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then((result) => {
+          if (result.isDenied) {
+            window.location.href = "./consulta.html";
+          }
+        });
     console.error("Erro ao carregar dados:", erro);
   }
 };

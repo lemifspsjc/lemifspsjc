@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Devoluções</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../../imagens/logo_lemifspsjc.png" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/style.css">
+    <title>Registrar Devoluções - LEM</title>
 </head>
 
 <body>
-    <h2>Registrar Devoluções</h2>
 
-    <form id="formDevolucao">
-        <div id="lista-emprestimos"></div>
-        <input type="hidden" name="recebidoPor" id="inputRecebidoPor" value="">
-        <button type="submit" id="btnDevolver">Registrar Devoluções</button>
-    </form>
+    <main>
+        <header>
+            <button id="voltar"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Registrar Devoluções</h2>
+            <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
+        </header>
+        
+        <form id="formDevolucao">
+            <div id="lista-emprestimos">
+                <h2>Carregando...</h2>
+                <div class="spinner"></div>
+            </div>
+            <img src="../../imagens/carregando.svg">
+            <input type="hidden" name="recebidoPor" id="inputRecebidoPor" value="">
+            <button type="submit" id="btnDevolver" style="display: none;">Registrar Devoluções</button>
+        </form>
+
+    </main>
 
     <script>
         // Bloqueia acesso se não logado
@@ -27,10 +41,11 @@
             window.location.href = "login.html";
         }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../js/script.js"></script>
     <script src="registraDevolucao.js"></script>
     <script src="emprestimosAtivos.js"></script>
 
 </body>
-
 </html>

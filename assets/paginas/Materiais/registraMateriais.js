@@ -1,19 +1,51 @@
 // validação dos dados do formulário
-// const btnCadastrar = document.getElementById('cadastrar');
+const btnCadastrar = document.getElementById('cadastrar');
 
-// const nome = document.getElementById('material');
-// const qtdTotal = document.getElementById('qtd-total');
-// const apropriado = document.getElementById('apropriado');
-// const defeito = document.getElementById('defeito');
-// const descMaterial = document.getElementById('desc-material')
+const nome = document.getElementById('material');
+const qtdTotal = document.getElementById('qtd-total');
+const apropriado = document.getElementById('apropriado');
+const defeito = document.getElementById('defeito');
+const descDefeito = document.getElementById('desc-defeito');
+const descMaterial = document.getElementById('desc-material');
 
-// function validarDados() {
-//   if (nome !== '' && qtdTotal !== '' && apropriado !== '' && defeito !== '' && descMaterial !== '') {
-//     btnCadastrar.removeAttribute('disabled');
-//   } else {
-//     btnCadastrar.setAttribute('disabled', '');
-//   }
-// };
+const lblQtdTotal = document.getElementById('lbl-qtd-total');
+const lblApropriado = document.getElementById('lbl-apropriado');
+const lblDefeito = document.getElementById('lbl-defeito');
+const lblDescDefeito = document.getElementById('lbl-desc-defeito');
+
+function validarDados() {
+  if ((apropriado.value.length >= 1 || defeito.value.length >= 1) && qtdTotal.value.length >= 1) {
+    if ((Number(apropriado.value) + Number(defeito.value)) <= qtdTotal.value) {
+      if (defeito.value.length >= 1) {
+        if ((descDefeito.value.length == 0 && defeito.value == 0) || (descDefeito.value.length > 1 && defeito.value >= 1)) {
+          if (nome.value.length > 2 && qtdTotal.value >= 1 && apropriado.value >= 1 && descMaterial.value.length > 2) {
+            btnCadastrar.disabled = false;
+          } else {
+            btnCadastrar.disabled = true;
+          }
+          document.getElementById('erro-defeito').style.display = "none";
+          lblDefeito.style.border = "none";
+          lblDescDefeito.style.border = "none";
+          console.log(Number(apropriado.value) + Number(defeito.value))
+        } else {
+          document.getElementById('erro-defeito').style.display = "block";
+          
+          lblDefeito.style.border = "1px solid #EA1010";
+          lblDescDefeito.style.border = "1px solid #EA1010";
+        }
+      }
+      document.getElementById('erro-qtd').style.display = "none";
+      lblQtdTotal.style.border = "none";
+      lblApropriado.style.border = "none";
+    } else {
+      document.getElementById('erro-qtd').style.display = "block";
+      
+      lblQtdTotal.style.border = "1px solid #EA1010";
+      lblApropriado.style.border = "1px solid #EA1010";
+      lblDefeito.style.border = "1px solid #EA1010";
+    }
+  }
+};
 
 // URL da API do Google Apps Script
 const API_URL_REGISTRA_MATERIAIS = "https://script.google.com/macros/s/AKfycbxdC8WGd8afkiUr3WE98NzWKkFi9H220Lj7ZkVHjoxmQRow2F7LP8ITsoJqUgtagiU/exec";
@@ -27,6 +59,14 @@ document.getElementById("formMaterial").addEventListener("submit", async functio
   const botaoSalva = document.getElementById("cadastrar")
   botaoSalva.disabled = true;
   botaoSalva.textContent = "Salvando...";
+
+  Swal.fire({
+    title: "Registrando...",
+    html: "<div class='spinner'></div>",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false
+  });
 
   const formData = new FormData(this);
   const dados = {};
@@ -43,6 +83,19 @@ document.getElementById("formMaterial").addEventListener("submit", async functio
   });
 
   const resultado = await resposta.json();
-  alert(resultado.status === "sucesso" ? "Registro inserido!" : "Erro ao inserir!");
-  window.location.href = "./consulta.html";
+  if (resultado.status === "sucesso") {
+    Swal.fire({
+      title: "Registro bem-sucedido!",
+      text: "O material foi registrado com sucesso!",
+      icon: "success",
+      confirmButtonText: "Obrigado!",
+      confirmButtonColor: '#38B42E',
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "../../../index.html";
+      }
+    });
+  }
 });

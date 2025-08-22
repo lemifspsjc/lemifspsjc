@@ -1,3 +1,15 @@
+// validação dos dados do formulário
+const nome = document.getElementById('nome');
+const sobrenome = document.getElementById('sobrenome');
+const botaoEnviar = document.getElementById("botao");
+function validarDados() {
+  if (nome.value.length > 2 && sobrenome.value.length > 2) {
+    botaoEnviar.disabled = false;
+  } else {
+    botaoEnviar.disabled = true;
+  }
+}
+
 // URL da API do Google Apps Script
 const API_URL_EMPRESTIMOS =
   "https://script.google.com/macros/s/AKfycbzImkmTkpoH8qA5Q6rA9jQVidow6icvDO_lozHkvqpBI4TxSDe7h1wkH-4CGoOfLk9wuA/exec";
@@ -13,10 +25,26 @@ function formatarData(dataISO) {
 }
 
 // FUNÇÃO PARA REGISTRAR DADOS
-document
-  .getElementById("formEmprestimo")
-  .addEventListener("submit", async function (e) {
+document.getElementById("formEmprestimo").addEventListener("submit", async function (e) {
     e.preventDefault();
+    
+    // Captura os materiais selecionados (checkbox)
+    const selecionados = [];
+    document.querySelectorAll('input[name="materiaisSelecionados"]:checked').forEach((checkbox) => {
+      selecionados.push(checkbox.value);
+    });
+    if (selecionados.length === 0) {
+      Swal.fire({
+        icon: "question",
+        title: "Nenhum material selecionado.",
+        text: "Selecione ao menos um material para registrar o empréstimo.",
+        confirmButtonText: "Tudo bem!",
+        confirmButtonColor: '#38B42E',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
+      return;
+    }
 
     const formData = new FormData(this);
     const dados = {};
@@ -24,18 +52,17 @@ document
     formData.forEach((valor, chave) => {
       dados[chave] = valor;
 
-      const botaoEnviar = document.getElementById("botao");
       botaoEnviar.disabled = true;
       botaoEnviar.textContent = "Prosseguindo...";
-    });
-
-    // Captura os materiais selecionados (checkbox)
-    const selecionados = [];
-    document
-      .querySelectorAll('input[name="materiaisSelecionados"]:checked')
-      .forEach((checkbox) => {
-        selecionados.push(checkbox.value);
+      Swal.fire({
+        title: "Prosseguindo...",
+        html: "<div class='spinner'></div>",
+        heightAuto: false,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
       });
+    });
 
     dados["Material"] = selecionados.join(", ");
     dados["Status"] = "Emprestado";
@@ -50,8 +77,6 @@ document
     const resultado = await resposta.json();
 
     if (resultado.status === "sucesso") {
-      const formulario = document.getElementById("formEmprestimo");
-      formulario.innerHTML = "";
 
       // busca o registro recém-criado pelo ID retornado
       const todos = await fetch(API_URL_EMPRESTIMOS);
@@ -71,59 +96,7 @@ document
           `;
         });
 
-        formulario.style.border = "1px solid #ccc";
-        formulario.style.padding = "10px";
-        formulario.style.marginBottom = "10px";
-        formulario.style.display = "flex";
-        formulario.style.flexDirection = "column";
-        formulario.style.gap = "10px";
-
-        formulario.innerHTML = `
-
-          <label>
-                <i class="fa-solid fa-user"></i>
-                <input type="text" id="nome" placeholder="Nome" name="Nome" value="${
-                  ultimo.Nome
-                }" readonly required>
-            </label>
-
-            <label>
-                <i class="fa-solid fa-signature"></i>
-                <input type="text" id="Sobrenome" placeholder="Sobrenome" name="Sobrenome" value="${
-                  ultimo.Sobrenome
-                }" readonly required>
-            </label>
-
-            <label>
-                <i class="fa-solid fa-calendar-days"></i>
-                <input type="text" name="DataEmprestimo" value="${formatarData(
-                  ultimo.DataEmprestimo
-                )}" readonly required>
-            </label>
-
-            <div id="materiais">${materiaisHTML}</div>
-          <button type="button" id="editarUltimo">Editar</button>
-          <button type="button" id="cancelarUltimo" style="background-color:red; color:white;">Cancelar</button>
-          <button type="button" id="finalizar">Finalizar</button>
-        `;
-
-        const botaoFinalizar = document.getElementById("finalizar");
-        botaoFinalizar.addEventListener("click", () => {
-          botaoFinalizar.disabled = true;
-          botaoFinalizar.textContent = "Finalizando...";
-          botaoCancela.disabled = true;
-          botaoEditar.disabled = true;
-          window.location.href = "./consulta.html";
-        });
-
-        // -------------------- CANCELAR --------------------
-        const botaoCancela = document.getElementById("cancelarUltimo");
-        botaoCancela.addEventListener("click", async () => {
-          botaoCancela.disabled = true;
-          botaoCancela.textContent = "Cancelando...";
-          botaoEditar.disabled = true;
-          botaoFinalizar.disabled = true;
-
+        async function excluir() {
           await fetch(API_URL_EMPRESTIMOS, {
             method: "POST",
             body: JSON.stringify({
@@ -131,84 +104,94 @@ document
               ID: ultimo.ID || ultimo.ID_Emprestimo,
             }),
           });
-          formulario.innerHTML = "";
-          alert("Empréstimo cancelado!");
-          window.location.href = "./consulta.html";
-        });
+        }
 
-        // -------------------- EDITAR --------------------
-        const botaoEditar = document.getElementById("editarUltimo");
-        botaoEditar.addEventListener("click", async () => {
-          botaoEditar.disabled = true;
-          botaoEditar.textContent = "Carregando...";
-          botaoCancela.disabled = true;
-          botaoFinalizar.disabled = true;
+        Swal.fire({
+          html: `
+            <div class="mostrar-dados">
+              <label>
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="nome" placeholder="Nome" name="Nome" value="${
+                  ultimo.Nome
+                }" readonly required> <br>
+              </label>
 
-          const API_URL_CONSULTA_MATERIAIS =
-            "https://script.google.com/macros/s/AKfycbxdC8WGd8afkiUr3WE98NzWKkFi9H220Lj7ZkVHjoxmQRow2F7LP8ITsoJqUgtagiU/exec";
+              <label>
+                <i class="fa-solid fa-signature"></i>
+                <input type="text" id="Sobrenome" placeholder="Sobrenome" name="Sobrenome" value="${
+                  ultimo.Sobrenome
+                }" readonly required> <br>
+              </label>
 
-          const respostaMateriais = await fetch(API_URL_CONSULTA_MATERIAIS);
-          const listaMateriais = await respostaMateriais.json();
-          const materiaisSelecionados = (ultimo.Material || "").split(", ");
+              <label>
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="text" name="DataEmprestimo" value="${formatarData(
+                  ultimo.DataEmprestimo
+                )}" readonly required>
+              </label>
+            </div>
 
-          mostrarMateriais(listaMateriais, materiaisSelecionados);
-
-          document.getElementById("nome").removeAttribute("readonly");
-          document.getElementById("Sobrenome").removeAttribute("readonly");
-
-          const botaoSalvar = document.getElementById("editarUltimo");
-          botaoSalvar.textContent = "Salvar";
-          botaoSalvar.disabled = false;
-          botaoCancela.disabled = false;
-          botaoFinalizar.remove();
-
-          botaoSalvar.addEventListener("click", async () => {
-            // Desativa o botão para não ter spam
-            botaoSalvar.disabled = true;
-            botaoSalvar.textContent = "Salvando...";
-            botaoCancela.disabled = true;
-            botaoFinalizar.disabled = true;
-
-            //  Exclui antigo
-            await fetch(API_URL_EMPRESTIMOS, {
-              method: "POST",
-              body: JSON.stringify({
-                acao: "excluir",
-                ID: ultimo.ID || ultimo.ID_Emprestimo,
-              }),
+            <div id="materiais">${materiaisHTML}</div>
+          `,
+          confirmButtonText: "Finalizar",
+          confirmButtonColor: '#38B42E',
+          showDenyButton: true,
+          denyButtonText: "Cancelar",
+          denyButtonColor: "#EA1010",
+          showCancelButton: true,
+          cancelButtonText: "Editar",
+          cancelButtonColor: "#38B42E",
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Registro bem-sucedido!",
+              text: "O empréstimo foi registrado com sucesso!",
+              icon: "success",
+              confirmButtonText: "Obrigado!",
+              confirmButtonColor: '#38B42E',
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "./consulta.html";
+              }
             });
-
-            // Captura os novos dados editados
-            const formDataEdit = new FormData(formulario);
-            const novosDados = {};
-            formDataEdit.forEach((valor, chave) => {
-              novosDados[chave] = valor;
+          } else if (result.isDenied) {
+            Swal.fire({
+              title: "Cancelamento bem-sucedido!",
+              text: "O empréstimo foi cancelado com sucesso!",
+              icon: "success",
+              confirmButtonText: "Obrigado!",
+              confirmButtonColor: '#38B42E',
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then((result) => {
+              if (result.isConfirmed) {
+                excluir();
+                window.location.href = "../../../index.html";
+              }
             });
-
-            // Materiais selecionados
-            const novosMateriais = [];
-            document
-              .querySelectorAll('input[name="materiaisSelecionados"]:checked')
-              .forEach((checkbox) => novosMateriais.push(checkbox.value));
-
-            novosDados["Material"] = novosMateriais.join(", ");
-            novosDados["Status"] = "Emprestado";
-            novosDados["acao"] = "adicionar";
-
-            // Envia edição
-
-            await fetch(API_URL_EMPRESTIMOS, {
-              method: "POST",
-              body: JSON.stringify(novosDados),
-            });
-            formulario.innerHTML = "";
-            alert("Empréstimo editado!");
-            window.location.href = "./consulta.html";
-          });
+          } else {
+            excluir();
+            botaoEnviar.disabled = false;
+            botaoEnviar.textContent = "Prosseguir";
+          }
         });
       }
     } else {
-      alert("Erro ao inserir: " + (resultado.mensagem || ""));
+      Swal.fire({
+        title: "Erro ao inserir!",
+        text: resultado.mensagem,
+        icon: "error",
+        showDenyButton: true,
+        denyButtonText: "Tentar novamente",
+        denyButtonColor: "#EA1010",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      });
       botaoEnviar.disabled = false;
       botaoEnviar.textContent = "Prosseguir";
     }
@@ -221,12 +204,9 @@ function mostrarMateriais(lista, selecionados = []) {
 
   lista.forEach((material) => {
     const div = document.createElement("div");
-    div.style.border = "1px solid #ccc";
-    div.style.padding = "10px";
-    div.style.marginBottom = "10px";
-    div.style.display = "flex";
+    div.className = "mostrar-dados";
     div.style.alignItems = "center";
-    div.style.gap = "10px";
+    div.style.flexDirection = "row";
 
     const checked = selecionados.includes(material["Material"])
       ? "checked"

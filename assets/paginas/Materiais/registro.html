@@ -48,24 +48,24 @@
                 <input type="text" placeholder="Material" name="Material" id="material" oninput="validarDados()" required>
             </label>
 
-            <label>
+            <label id="lbl-qtd-total">
                 <i class="fa-solid fa-boxes-stacked"></i>
                 <input type="number" min="1" placeholder="Quantidade Total" name="Quantidade Total" id="qtd-total" oninput="validarDados()" required>
             </label>
 
-            <label>
+            <label id="lbl-apropriado">
                 <i class="fa-solid fa-square-check"></i>
                 <input type="number" min="1" placeholder="Apropriado para Uso" name="Apropriado para uso" id="apropriado" oninput="validarDados()" required>
             </label>
 
-            <label>
+            <label id="lbl-defeito">
                 <i class="fa-solid fa-square-xmark"></i>
-                <input type="number" min="1" placeholder="Com Defeito" name="Com Defeito" id="defeito" oninput="validarDados()" required>
+                <input type="number" min="0" placeholder="Com Defeito" name="Com Defeito" id="defeito" oninput="validarDados()" required>
             </label>
 
-            <label>
+            <label id="lbl-desc-defeito">
                 <i class="fa-solid fa-file-circle-xmark"></i>
-                <input type="text" placeholder="Descrição de Defeito" name="Descrição do Defeito" id="desc-defeito">
+                <input type="text" placeholder="Descrição de Defeito" name="Descrição do Defeito" id="desc-defeito" oninput="validarDados()">
             </label>
 
             <label>
@@ -83,13 +83,16 @@
                 <input type="text" placeholder="Descrição do Material" name="Descrição do Material" id="desc-material" oninput="validarDados()" required>
             </label> <br>
 
-            <button id="cadastrar" type="submit">Cadastrar Material</button>
+            <button id="cadastrar" type="submit" disabled>Cadastrar Material</button>
+            <span id="erro-qtd" class="erro">A Quantidade Total não pode ser menor que a quantidade com ou sem defeito.</span>
+            <span id="erro-defeito" class="erro">Não pode haver defeito sem descrição e vice-versa.</span>
         </form>
 
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../js/script.js"></script>
     <script src="registraMateriais.js"></script>
-
+    
 </body>
 </html>

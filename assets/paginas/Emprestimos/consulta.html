@@ -19,9 +19,36 @@
       <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
     </header>
 
-    <div id="emprestimos"></div>
+    <div id="emprestimos">
+      <h2>Carregando...</h2>
+      <div class="spinner"></div>
+    </div>
+    <img src="../../imagens/carregando.svg">
 
   </main>
+
+  <script>
+    // Função para exibir os materiais na página
+    function mostrarEmprestimos(lista) {
+      const container = document.getElementById("emprestimos");
+      container.innerHTML = ""; // Limpa antes de adicionar
+
+      lista.forEach(emprestimo => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <strong>${emprestimo["ID_Emprestimo"]} - ${emprestimo["Nome"]} ${emprestimo["Sobrenome"]}</strong><br>
+          <b><i class="fa-solid fa-box"></i> Material Emprestado:</b> ${emprestimo["Material"]}<br>
+          <b><i class="fa-solid fa-calendar-days"></i> Data de Empréstimo:</b> ${formatarData(emprestimo["DataEmprestimo"])}<br>
+          <b><i class="fa-solid fa-file-circle-check"></i> Status:</b> ${emprestimo["Status"]}<br><br>
+          <hr>
+          <br>
+        `;
+        container.appendChild(div);
+
+        document.querySelector('img').src = "../../imagens/dados.svg";
+      });
+    };
+  </script>
 
   <script src="../../js/script.js"></script>
   <script src="consultaEmprestimos.js"></script>

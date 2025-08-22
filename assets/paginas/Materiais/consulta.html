@@ -22,7 +22,12 @@
       <button style="opacity: 0;"><i class="fa-solid fa-arrow-left"></i></button>
     </header>
 
-    <div id="materiais"></div>
+    <div id="materiais">
+      <h2>Carregando...</h2>
+      <div class="spinner"></div>
+    </div>
+
+    <img src="../../imagens/carregando.svg">
 
   </main>
 
@@ -47,6 +52,8 @@
           <br>
         `;
         container.appendChild(div);
+
+        document.querySelector('img').src = "../../imagens/dados.svg";
       });
     };
 

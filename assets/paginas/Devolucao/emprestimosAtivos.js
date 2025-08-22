@@ -22,24 +22,41 @@ async function listarEmprestimos() {
       const div = document.createElement("div"); // cria div para cada item
       div.innerHTML = `
 
-    <input type="checkbox" name="emprestimosSelecionados" class="checkbox-emprestimo" value="${
-      emprestimo.ID_Emprestimo
-    }" id="chk-${emprestimo.ID_Emprestimo}"
-    data-nome="${emprestimo.Nome}"
-    data-sobrenome="${emprestimo.Sobrenome}"
-    data-material="${emprestimo.Material}"
-    data-dataemprestimo="${formatarData(emprestimo.DataEmprestimo)}">
-
+      
+      <input type="checkbox" name="emprestimosSelecionados" class="checkbox-emprestimo" value="${
+        emprestimo.ID_Emprestimo
+      }" id="chk-${emprestimo.ID_Emprestimo}"
+      data-nome="${emprestimo.Nome}"
+      data-sobrenome="${emprestimo.Sobrenome}"
+      data-material="${emprestimo.Material}"
+      data-dataemprestimo="${formatarData(emprestimo.DataEmprestimo)}">
     <label for="chk-${emprestimo.ID_Emprestimo}">
       <strong>${emprestimo.Nome} ${emprestimo.Sobrenome}</strong><br>
       Material: ${emprestimo.Material}<br>
       Data Empréstimo: ${formatarData(emprestimo.DataEmprestimo)}
     </label>
-    <hr>
   `;
       container.appendChild(div);
+      document.getElementById('btnDevolver').style.display = "block";
+      document.querySelector('img').style.display = "none"; 
     });
+
   } catch (error) {
+    Swal.fire({
+      title: "Erro ao listar empréstimos:",
+      text: error,
+      icon: "error",
+      showDenyButton: true,
+      denyButtonText: "Tentar novamente",
+      denyButtonColor: "#EA1010",
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then((result) => {
+      if (result.isDenied) {
+        window.location.href = "./consulta.html";
+      }
+    });
     console.error("Erro ao listar empréstimos:", error);
   }
 }

@@ -25,12 +25,12 @@
         <form id="formEmprestimo">
             <label>
                 <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="Nome" name="Nome" required>
+                <input type="text" placeholder="Nome" name="Nome" id="nome" oninput="validarDados()" required>
             </label>
 
             <label>
                 <i class="fa-solid fa-signature"></i>
-                <input type="text" placeholder="Sobrenome" name="Sobrenome" required>
+                <input type="text" placeholder="Sobrenome" name="Sobrenome" id="sobrenome" oninput="validarDados()" required>
             </label>
 
             <label>
@@ -42,7 +42,7 @@
             <!-- Aqui os materiais serão inseridos via JS -->
             <div id="materiais"></div>
 
-            <br><button type="submit" id="botao">Prosseguir</button>
+            <br><button type="submit" id="botao" disabled>Prosseguir</button>
         </form>
 
     </main>
@@ -80,6 +80,7 @@
 
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../../js/script.js"></script>
     <script src="registraEmprestimos.js"></script>
     <script src="../Materiais/consultaMateriais.js"></script>

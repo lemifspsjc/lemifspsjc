@@ -12,6 +12,22 @@
     --cor-cinza-escuro: #bbbbbb;
 }
 
+/* keyframes */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* reset css */
 * {
     margin: 0;
@@ -30,6 +46,7 @@ body {
     background-color: var(--cor-fundo);
     padding: 5vh;
     font-family: 'Poppins';
+    animation: aparecer .5s forwards;
 }
 
 /* configuração da scrollbar */
@@ -178,7 +195,7 @@ a:hover i {
     text-decoration: underline;
 }
 
-/* formulários */
+/* estilização de formulários */
 form {
     display: flex;
     align-items: center;
@@ -256,6 +273,25 @@ form button:hover {
     border: 1px solid var(--cor-principal);
 }
 
+.mostrar-dados {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 10px solid rgba(255, 255, 255, .1);
+    border-top-color: var(--cor-principal);
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: spin .7s ease infinite;
+}
+
 /* outras páginas */
 
 i {
@@ -281,4 +317,16 @@ header button {
     padding: 1rem;
     margin-bottom: 1rem;
     border: 1px solid var(--cor-cinza);
+}
+
+.erro {
+    color: var(--cor-secundaria);
+    font-size: 11px;
+    font-weight: bold;
+
+    display: none;
+}
+
+.erro::before {
+    content: "*";
 }
