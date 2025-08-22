@@ -20,9 +20,15 @@ async function listarEmprestimos() {
 
     ativos.forEach((emprestimo) => {
       const div = document.createElement("div"); // cria div para cada item
+      div.style.display = "flex";
+      div.style.backgroundColor = "var(--cor-cinza)";
+      div.style.borderRadius = "15px";
+      div.style.padding = "15px";
+      div.style.width = "100%";
+      div.style.marginBottom = "5%";
+
       div.innerHTML = `
 
-      
       <input type="checkbox" name="emprestimosSelecionados" class="checkbox-emprestimo" value="${
         emprestimo.ID_Emprestimo
       }" id="chk-${emprestimo.ID_Emprestimo}"
@@ -30,7 +36,7 @@ async function listarEmprestimos() {
       data-sobrenome="${emprestimo.Sobrenome}"
       data-material="${emprestimo.Material}"
       data-dataemprestimo="${formatarData(emprestimo.DataEmprestimo)}">
-    <label for="chk-${emprestimo.ID_Emprestimo}">
+    <label for="chk-${emprestimo.ID_Emprestimo}" style="display: block;">
       <strong>${emprestimo.Nome} ${emprestimo.Sobrenome}</strong><br>
       Material: ${emprestimo.Material}<br>
       Data Empréstimo: ${formatarData(emprestimo.DataEmprestimo)}

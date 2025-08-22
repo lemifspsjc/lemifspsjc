@@ -1,6 +1,6 @@
 // validação dos dados do formulário
-const nome = document.getElementById('nome');
-const sobrenome = document.getElementById('sobrenome');
+const nome = document.getElementById("nome");
+const sobrenome = document.getElementById("sobrenome");
 const botaoEnviar = document.getElementById("botao");
 function validarDados() {
   if (nome.value.length > 2 && sobrenome.value.length > 2) {
@@ -25,23 +25,35 @@ function formatarData(dataISO) {
 }
 
 // FUNÇÃO PARA REGISTRAR DADOS
-document.getElementById("formEmprestimo").addEventListener("submit", async function (e) {
+document
+  .getElementById("formEmprestimo")
+  .addEventListener("submit", async function (e) {
     e.preventDefault();
-    
+
     // Captura os materiais selecionados (checkbox)
     const selecionados = [];
-    document.querySelectorAll('input[name="materiaisSelecionados"]:checked').forEach((checkbox) => {
-      selecionados.push(checkbox.value);
-    });
+    document
+      .querySelectorAll('input[name="materiaisSelecionados"]:checked')
+      .forEach((checkbox) => {
+        const material = checkbox.value;
+
+        // procura o input de quantidade dentro da mesma div do checkbox
+        const quantidadeInput = checkbox
+          .closest("div")
+          .querySelector('input[name="Quantidade a Emprestar"]');
+        const quantidade = quantidadeInput ? quantidadeInput.value : 1;
+
+        selecionados.push(`${material} (${quantidade})`);
+      });
     if (selecionados.length === 0) {
       Swal.fire({
         icon: "question",
         title: "Nenhum material selecionado.",
         text: "Selecione ao menos um material para registrar o empréstimo.",
         confirmButtonText: "Tudo bem!",
-        confirmButtonColor: '#38B42E',
+        confirmButtonColor: "#38B42E",
         allowOutsideClick: false,
-        allowEscapeKey: false
+        allowEscapeKey: false,
       });
       return;
     }
@@ -60,7 +72,7 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
         heightAuto: false,
         showConfirmButton: false,
         allowOutsideClick: false,
-        allowEscapeKey: false
+        allowEscapeKey: false,
       });
     });
 
@@ -77,7 +89,6 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
     const resultado = await resposta.json();
 
     if (resultado.status === "sucesso") {
-
       // busca o registro recém-criado pelo ID retornado
       const todos = await fetch(API_URL_EMPRESTIMOS);
       const lista = await todos.json();
@@ -134,7 +145,7 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
             <div id="materiais">${materiaisHTML}</div>
           `,
           confirmButtonText: "Finalizar",
-          confirmButtonColor: '#38B42E',
+          confirmButtonColor: "#38B42E",
           showDenyButton: true,
           denyButtonText: "Cancelar",
           denyButtonColor: "#EA1010",
@@ -142,7 +153,7 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
           cancelButtonText: "Editar",
           cancelButtonColor: "#38B42E",
           allowOutsideClick: false,
-          allowEscapeKey: false
+          allowEscapeKey: false,
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire({
@@ -150,9 +161,9 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
               text: "O empréstimo foi registrado com sucesso!",
               icon: "success",
               confirmButtonText: "Obrigado!",
-              confirmButtonColor: '#38B42E',
+              confirmButtonColor: "#38B42E",
               allowOutsideClick: false,
-              allowEscapeKey: false
+              allowEscapeKey: false,
             }).then((result) => {
               if (result.isConfirmed) {
                 window.location.href = "./consulta.html";
@@ -164,9 +175,9 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
               text: "O empréstimo foi cancelado com sucesso!",
               icon: "success",
               confirmButtonText: "Obrigado!",
-              confirmButtonColor: '#38B42E',
+              confirmButtonColor: "#38B42E",
               allowOutsideClick: false,
-              allowEscapeKey: false
+              allowEscapeKey: false,
             }).then((result) => {
               if (result.isConfirmed) {
                 excluir();
@@ -190,7 +201,7 @@ document.getElementById("formEmprestimo").addEventListener("submit", async funct
         denyButtonColor: "#EA1010",
         showConfirmButton: false,
         allowOutsideClick: false,
-        allowEscapeKey: false
+        allowEscapeKey: false,
       });
       botaoEnviar.disabled = false;
       botaoEnviar.textContent = "Prosseguir";
@@ -216,13 +227,15 @@ function mostrarMateriais(lista, selecionados = []) {
       <input type="checkbox" name="materiaisSelecionados" value="${material["Material"]}" ${checked}>
       <div>
         <strong>${material["Material"]}</strong><br>
-        <b><i class="fa-solid fa-boxes-stacked"></i> Quantidade Total:</b> ${material["Quantidade Total"]}<br>
+        <b><i class="fa-solid fa-boxes-stacked"></i> Quantidade Disponivel:</b> ${material["Disponivel"]}<br>
         <b><i class="fa-solid fa-window-restore"></i> Local:</b> ${material["Armário"]}, ${material["Prateleira"]}<br>
         <b><i class="fa-solid fa-brain"></i> Área Trabalhada:</b> ${material["Área Trabalhada"]}<br>
+        <b><i class="fa-solid fa-boxes-stacked"></i> Quantidade a Emprestar:</b><input type="number" name="Quantidade a Emprestar" value="1" min="1" max="${material["Disponivel"]}" style="background-color: white; border-radius: 5px; width: 35px; height: 20px; font-size: 20px"></input><br>
       </div>
       <div style="width: 80px; height: 80px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
         <span>Imagem</span>
       </div>
+      
     `;
     container.appendChild(div);
   });

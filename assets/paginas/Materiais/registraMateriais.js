@@ -3,13 +3,13 @@ const btnCadastrar = document.getElementById('cadastrar');
 
 const nome = document.getElementById('material');
 const qtdTotal = document.getElementById('qtd-total');
-const apropriado = document.getElementById('apropriado');
+const disponivel = document.getElementById('disponivel');
 const defeito = document.getElementById('defeito');
 const descDefeito = document.getElementById('desc-defeito');
 const descMaterial = document.getElementById('desc-material');
 
 const lblQtdTotal = document.getElementById('lbl-qtd-total');
-const lblApropriado = document.getElementById('lbl-apropriado');
+const lbldisponivel = document.getElementById('lbl-disponivel');
 const lblDefeito = document.getElementById('lbl-defeito');
 const lblDescDefeito = document.getElementById('lbl-desc-defeito');
 
